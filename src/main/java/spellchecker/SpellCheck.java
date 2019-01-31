@@ -7,46 +7,45 @@ public class SpellCheck {
     public SpellCheck() {
     }
 
-    public static void main(String[] var0) {
-        if (var0.length == 0) {
+    public static void main(String[] args) {
+        if (args.length == 0) {
             showUsageMessage();
         } else {
-            String var1 = var0[var0.length - 1];
-            String var2 = "wordlist.txt";
-            Object var3 = new LousyStringHasher();
-            PrintStream var4 = System.out;
+            String inputFilepath = args[args.length - 1];
+            String wordListFilepath = "wordlist.txt";
+            Object hasher = new LousyStringHasher();
+            PrintStream printStreamer = System.out;
             boolean var5 = false;
 
-            for(int var6 = 0; var6 < var0.length - 1; ++var6) {
-                if (var0[var6].equals("-degenerate")) {
-                    var3 = new DegenerateStringHasher();
-                } else if (var0[var6].equals("-lousy")) {
-                    var3 = new LousyStringHasher();
-                } else if (var0[var6].equals("-better")) {
-                    var3 = new BetterStringHasher();
-                } else if (var0[var6].equals("-quiet")) {
-                    var4 = new PrintStream(new NullOutputStream());
+            for(int i = 0; i < args.length - 1; ++i) {
+                if (args[i].equals("-degenerate")) {
+                    hasher = new DegenerateStringHasher();
+                } else if (args[i].equals("-lousy")) {
+                    hasher = new LousyStringHasher();
+                } else if (args[i].equals("-better")) {
+                    hasher = new BetterStringHasher();
+                } else if (args[i].equals("-quiet")) {
+                    printStreamer = new PrintStream(new NullOutputStream());
                     var5 = true;
-                } else if (var0[var6].equals("-wordlist")) {
-                    ++var6;
-                    if (var6 >= var0.length - 1) {
+                } else if (args[i].equals("-wordlist")) {
+                    ++i;
+                    if (i >= args.length - 1) {
                         showUsageMessage();
                         return;
                     }
-
-                    var2 = var0[var6];
+                    wordListFilepath = args[i];
                 }
             }
 
-            if (var0[var0.length - 1].charAt(0) == '-') {
+            if (args[args.length - 1].charAt(0) == '-') {
                 showUsageMessage();
             } else {
                 try {
-                    long var7 = System.currentTimeMillis();
-                    (new Checker()).check(var1, var2, (StringHasher)var3, var4);
-                    long var9 = System.currentTimeMillis();
+                    long startTime = System.currentTimeMillis();
+                    (new Checker()).check(inputFilepath, wordListFilepath, (StringHasher)hasher, printStreamer);
+                    long endTime = System.currentTimeMillis();
                     if (var5) {
-                        System.out.println("Checker ran in " + (var9 - var7) + "ms");
+                        System.out.println("Checker ran in " + (endTime - startTime) + "ms");
                     }
                 } catch (IOException var11) {
                     var11.printStackTrace();

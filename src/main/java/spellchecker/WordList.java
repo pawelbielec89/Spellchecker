@@ -7,16 +7,16 @@ import java.io.IOException;
 public class WordList {
     private final HashTable hashTable;
 
-    public WordList(String var1, StringHasher var2) throws IOException {
-        BufferedReader var3 = new BufferedReader(new FileReader(var1));
-        int var4 = Integer.parseInt(var3.readLine());
-        this.hashTable = new HashTable((int)((double)var4 * 1.2D), var2);
+    public WordList(String strToHash, StringHasher hasher) throws IOException {
+        BufferedReader bReader = new BufferedReader(new FileReader(strToHash));
+        int var4 = Integer.parseInt(bReader.readLine());
+        this.hashTable = new HashTable((int)((double)var4 * 1.2D), hasher);
 
-        for(int var5 = 0; var5 < var4; ++var5) {
-            this.hashTable.add(var3.readLine().trim().toUpperCase());
+        for(int i = 0; i < var4; ++i) {
+            this.hashTable.add(bReader.readLine().trim().toUpperCase());
         }
 
-        var3.close();
+        bReader.close();
     }
 
     public boolean lookup(String var1) {

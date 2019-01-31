@@ -12,44 +12,44 @@ public class Checker {
     public Checker() {
     }
 
-    public void check(String var1, String var2, StringHasher var3, PrintStream var4) throws IOException {
-        WordList var5 = new WordList(var2, var3);
-        BufferedReader var6 = new BufferedReader(new FileReader(var1));
-        String var7 = var6.readLine();
-        WordLineReader var8 = new WordLineReader(var7);
+    public void check(String inputFilepath, String wordlistFilepath, StringHasher hasher, PrintStream printStreamer) throws IOException {
+        WordList wordList = new WordList(wordlistFilepath, hasher);
+        BufferedReader bReader = new BufferedReader(new FileReader(inputFilepath));
+        String line = bReader.readLine();
+        WordLineReader wordLineReader = new WordLineReader(line);
 
         label34:
-        for(WordChecker var9 = new WordChecker(var5); var7 != null; var8 = new WordLineReader(var7)) {
+        for(WordChecker var9 = new WordChecker(wordList); line != null; wordLineReader = new WordLineReader(line)) {
             while(true) {
                 ArrayList var11;
                 do {
                     String var10;
                     do {
-                        if (!var8.hasNextWord()) {
-                            var7 = var6.readLine();
+                        if (!wordLineReader.hasNextWord()) {
+                            line = bReader.readLine();
                             continue label34;
                         }
 
-                        var10 = var8.nextWord().toUpperCase();
+                        var10 = wordLineReader.nextWord().toUpperCase();
                     } while(var9.wordExists(var10));
 
                     var11 = var9.getSuggestions(var10);
-                    var4.println();
-                    var4.println(var7);
-                    var4.println("     word not found: " + var10);
+                    printStreamer.println();
+                    printStreamer.println(line);
+                    printStreamer.println("     word not found: " + var10);
                 } while(var11.size() <= 0);
 
                 Collections.sort(var11);
-                var4.println("  perhaps you meant: ");
+                printStreamer.println("  perhaps you meant: ");
                 Iterator var12 = var11.iterator();
 
                 while(var12.hasNext()) {
                     String var13 = (String)var12.next();
-                    var4.println("          " + var13 + " ");
+                    printStreamer.println("          " + var13 + " ");
                 }
             }
         }
 
-        var6.close();
+        bReader.close();
     }
 }

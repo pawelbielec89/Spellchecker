@@ -11,8 +11,12 @@ package spellchecker;
  * the strings that hashed to that cell.
  */
 
-public class HashTable
-{
+public class HashTable {
+
+	private StringHasher hasher;
+	private Word[] table;
+
+
 	/**
    * The constructor is given a table size (i.e. how big to make the array)
    * and a StringHasher, which is used to hash the strings.
@@ -23,7 +27,8 @@ public class HashTable
    */
 	public HashTable(int tableSize, StringHasher hasher)
 	{
-
+		this.hasher = hasher;
+		this.table = new Word[tableSize];
 	}
 
 
@@ -33,9 +38,21 @@ public class HashTable
    *
    * @param s String to add
    */
-	public void add(String s)
-	{
-
+	public void add(String s) {
+		boolean findIsThereWord = lookup(s);
+		if(!findIsThereWord){
+			Word wordToAdd = new Word(s);
+			int wordHash = hasher.hash(s);
+			if (table[wordHash] != null){
+				Word currentWord = table[wordHash];
+				while(currentWord.getNext() != null){
+					currentWord = currentWord.getNext();
+				}
+				currentWord.setNext(wordToAdd);
+			} else {
+				table[wordHash] = wordToAdd;
+			}
+		}
 	}
 	
 
@@ -45,10 +62,19 @@ public class HashTable
   *
   * @param s String to look up
   */
-	public boolean lookup(String s)
-	{
+	public boolean lookup(String s) {
+		int hashKey = hasher.hash(s);
+		Word currentWord = table[hashKey];
+		if (currentWord != null){
+			while(currentWord.getContent() != s && currentWord.getNext() != null){
+				currentWord = currentWord.getNext();
+				if (currentWord.getContent() == s)
+					return true;
+				}
+			}
+		return false;
+		}
 
-	}
 	
 
 	/**
@@ -57,8 +83,19 @@ public class HashTable
    *
    * @param s String to remove
   */
-	public void remove(String s)
-	{
-
+	public void remove(String s) {
+		int hashKey = hasher.hash(s);
+		Word previousWord = null;
+		Word currentWord = table[hashKey];
+		if (currentWord != null){
+			while(currentWord.getContent() != s && currentWord.getNext() != null){
+				previousWord = currentWord;
+				currentWord = currentWord.getNext();
+				}
+			}
+		if (currentWord.getContent() == s) {
+			previousWord.setNext(currentWord.getNext());
+			currentWord.setNext(null);
+		}
 	}
 }
