@@ -42,7 +42,7 @@ public class WordChecker {
      * @return bollean indicating if the word was found or not.
      */
     public boolean wordExists(String word) {
-        if (wordlist.lookup(word)) {
+        if (wordlist.lookup(word.toUpperCase())) {
             return true;
         } else {
             return false;
@@ -126,11 +126,37 @@ public class WordChecker {
     private ArrayList<String> letterRedundant(String word) {
         ArrayList<String> results = new ArrayList<>();
 
+        for(int i = 0 ; i < word.length() ; i++){
+            char[] wordInArray = word.toCharArray();
+            wordInArray[i] = ' ';
+            String potentialWord = "";
+            for (char c : wordInArray){
+                if(c != ' '){
+                    potentialWord+=c;
+                }
+            }
+            if(wordlist.lookup(potentialWord)){
+                results.add(potentialWord);
+            }
+
+        }
+
         return results;
     }
 
     private ArrayList<String> replaceLetters(String word) {
         ArrayList<String> results = new ArrayList<>();
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        for (int i = 0 ; i < word.length() ; i++){
+            char[] wordInArray = word.toCharArray();
+            for (int j = 0 ; j < alphabet.length ; j++){
+                wordInArray[i] = alphabet[j];
+                String potentialWord = wordInArray.toString();
+                if(wordlist.lookup(potentialWord)){
+                    results.add(potentialWord);
+                }
+            }
+        }
 
         return results;
     }

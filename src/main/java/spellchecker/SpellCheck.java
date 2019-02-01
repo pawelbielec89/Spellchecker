@@ -10,9 +10,11 @@ public class SpellCheck {
     public static void main(String[] args) {
         if (args.length == 0) {
             showUsageMessage();
+
         } else {
-            String inputFilepath = args[args.length - 1];
-            String wordListFilepath = "wordlist.txt";
+            String filepath = "src/main/resources/spellchecker/";
+            String inputFilepath = filepath + args[args.length - 1];
+            String wordListFilepath = filepath + "wordlist.txt";
             Object hasher = new LousyStringHasher();
             PrintStream printStreamer = System.out;
             boolean var5 = false;

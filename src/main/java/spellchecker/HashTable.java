@@ -43,6 +43,7 @@ public class HashTable {
 		if(!findIsThereWord){
 			Word wordToAdd = new Word(s);
 			int wordHash = hasher.hash(s);
+				wordHash = checkIfArrayIndexInBounds(wordHash);
 			if (table[wordHash] != null){
 				Word currentWord = table[wordHash];
 				while(currentWord.getNext() != null){
@@ -64,6 +65,11 @@ public class HashTable {
   */
 	public boolean lookup(String s) {
 		int hashKey = hasher.hash(s);
+		hashKey = checkIfArrayIndexInBounds(hashKey);
+		Word a = table[hashKey];
+		if(a == null){
+			return false;
+		}
 		Word currentWord = table[hashKey];
 		if (currentWord != null){
 			while(currentWord.getContent() != s && currentWord.getNext() != null){
@@ -97,5 +103,12 @@ public class HashTable {
 			previousWord.setNext(currentWord.getNext());
 			currentWord.setNext(null);
 		}
+	}
+	private int checkIfArrayIndexInBounds(int index) {
+		if (index > table.length || index < 0) {
+			index = Math.abs(index);
+			index = index % (table.length - 1);
+		}
+		return index;
 	}
 }

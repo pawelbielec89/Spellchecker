@@ -29,7 +29,6 @@ public class Checker {
                             line = bReader.readLine();
                             continue label34;
                         }
-
                         var10 = wordLineReader.nextWord().toUpperCase();
                     } while(var9.wordExists(var10));
 
