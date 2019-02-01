@@ -42,7 +42,7 @@ public class WordChecker {
      * @return bollean indicating if the word was found or not.
      */
     public boolean wordExists(String word) {
-        if (wordlist.lookup(word)) {
+        if (lookupForString(word)) {
             return true;
         } else {
             return false;
@@ -87,7 +87,7 @@ public class WordChecker {
             wordInArray[i] = nextChar;
             wordInArray[i++] = indexChar;
             String swappedString = new String(wordInArray);
-            if(wordlist.lookup(swappedString)){
+            if(lookupForString(swappedString)){
                 results.add(swappedString);
             }
         }
@@ -102,7 +102,7 @@ public class WordChecker {
                     String potentialWord;
                     if(i == 0){
                         potentialWord = alphabet[j] + word;
-                        if(wordlist.lookup(potentialWord)){
+                        if(lookupForString(potentialWord)){
                             results.add(potentialWord);
                         }
                     } else if (i>0 && i < word.length()-1){
@@ -115,7 +115,7 @@ public class WordChecker {
                         potentialWord = word + alphabet[j];
 
                     }
-                    if(wordlist.lookup(potentialWord)){
+                    if(lookupForString(potentialWord)){
                         results.add(potentialWord);
                     }
                 }
@@ -135,7 +135,7 @@ public class WordChecker {
                     potentialWord+=c;
                 }
             }
-            if(wordlist.lookup(potentialWord)){
+            if(lookupForString(potentialWord)){
                 results.add(potentialWord);
             }
 
@@ -152,7 +152,7 @@ public class WordChecker {
             for (int j = 0 ; j < alphabet.length ; j++){
                 wordInArray[i] = alphabet[j];
                 String potentialWord = wordInArray.toString();
-                if(wordlist.lookup(potentialWord)){
+                if(lookupForString(potentialWord)){
                     results.add(potentialWord);
                 }
             }
@@ -163,8 +163,25 @@ public class WordChecker {
 
     private ArrayList<String> splitWord(String word) {
         ArrayList<String> results = new ArrayList<>();
-
+        for (int i = 0 ; i < word.length() ; i ++){
+            char[] wordInArray = word.toCharArray();
+            String start = new String(wordInArray, 0,i);
+            String end = new String(wordInArray, i+1,wordInArray.length-i-1);
+            if(lookupForString(start)){
+                results.add(start);
+            }
+            if(lookupForString(end)){
+                results.add(end);
+            }
+        }
         return results;
+    }
+
+    private boolean lookupForString(String str){
+	    if (wordlist.lookup(str)){
+	        return true;
+        }
+	    return false;
     }
 
 }
