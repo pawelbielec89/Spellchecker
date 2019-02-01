@@ -29,7 +29,7 @@ public class Checker {
                             line = bReader.readLine();
                             continue label34;
                         }
-                        var10 = wordLineReader.nextWord().toUpperCase();
+                        var10 = wordLineReader.nextWord();
                     } while(var9.wordExists(var10));
 
                     var11 = var9.getSuggestions(var10);

@@ -42,7 +42,7 @@ public class WordChecker {
      * @return bollean indicating if the word was found or not.
      */
     public boolean wordExists(String word) {
-        if (wordlist.lookup(word.toUpperCase())) {
+        if (wordlist.lookup(word)) {
             return true;
         } else {
             return false;

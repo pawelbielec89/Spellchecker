@@ -35,7 +35,7 @@ public class SpellCheck {
                         showUsageMessage();
                         return;
                     }
-                    wordListFilepath = args[i];
+                    wordListFilepath = filepath + args[i];
                 }
             }
 
